@@ -30,7 +30,7 @@ describe('Testes da Funcionalidade Usuários', () => {
         });
     });
 
-    it('Deve cadastrar um usuário com sucesso', () => {
+    it('Deve cadastrar um usuário com sucesso - POST', () => {
         cy.cadastrarUsuario(token, 'Fulano da Silva', 'fulano@qa.com', 'teste')
             .then((response) => {
                 expect(response.status).to.equal(201);
@@ -49,7 +49,7 @@ describe('Testes da Funcionalidade Usuários', () => {
 
     it('Deve editar um usuário previamente cadastrado', () => {
         cy.request({
-            method: 'GET',
+            method: 'PUT',
             url: 'usuarios/0uxuPY0cbmQhpEz1',
             headers: { authorization: token },
         }).then(response => {

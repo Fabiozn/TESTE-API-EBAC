@@ -13,7 +13,7 @@ Cypress.Commands.add('token', (email, senha, nome, administrador) => {
     });
 });
 
-// Comando para cadastrar um produto
+
 Cypress.Commands.add('cadastrarProduto', (token, produto, preco, descricao, quantidade) => {
     cy.request({
         method: 'POST',
