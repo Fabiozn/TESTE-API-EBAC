@@ -1,35 +1,35 @@
-// Comando para obter o token de autenticação
-Cypress.Commands.add('token', (email, senha, nome, administrador) => {
+Cypress.Commands.add('token', (email, senha) => {
     cy.request({
         method: 'POST',
         url: 'login',
         body: {
-            email: email,
-            password: senha,
-        },
+            "email": email,
+            "password": senha 
+        }
     }).then((response) => {
-        expect(response.status).to.equal(200);
-        return response.body.authorization;
-    });
-});
+        expect(response.status).to.equal(200)
+        return response.body.authorization
+    })
+ })
 
-
-Cypress.Commands.add('cadastrarProduto', (token, produto, preco, descricao, quantidade) => {
+ Cypress.Commands.add('cadastrarProduto' , (token, produto, preco, descricao, quantidade) =>{
     cy.request({
-        method: 'POST',
+        method: 'POST', 
         url: 'produtos',
-        headers: { authorization: token },
+        headers: {authorization: token}, 
         body: {
-            nome: produto,
-            preco: preco,
-            descricao: descricao,
-            quantidade: quantidade,
-        },
-        failOnStatusCode: false,
-    });
-});
+            "nome": produto,
+            "preco": preco,
+            "descricao": descricao,
+            "quantidade": quantidade
+          }, 
+          failOnStatusCode: false
+    })
+ })
 
-Cypress.Commands.add('cadastrarUsuario', (token, nome, email, senha, administrador) => {
+
+
+ Cypress.Commands.add('cadastrarUsuario', (token, nome, email, senha, administrador) => {
     cy.request({
         method: 'POST',
         url: 'usuarios',
@@ -43,4 +43,3 @@ Cypress.Commands.add('cadastrarUsuario', (token, nome, email, senha, administrad
         failOnStatusCode: false,
     })
 });
-
