@@ -29,11 +29,11 @@ Cypress.Commands.add('token', (email, senha) => {
 
 
 
- Cypress.Commands.add('cadastrarUsuario', (token, nome, email, senha, administrador) => {
+ Cypress.Commands.add('cadastrarUsuario', (token2, nome, email, senha, administrador) => {
     cy.request({
         method: 'POST',
         url: 'usuarios',
-        headers: { authorization: token },
+        headers: { authorization: token2 },
         body: {
             nome: nome,
             email: email,

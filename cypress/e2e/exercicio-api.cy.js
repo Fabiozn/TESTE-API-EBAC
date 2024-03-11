@@ -34,10 +34,10 @@ describe('Testes da Funcionalidade Usuários', () => {
             url: 'usuarios',
             body: {
                 "nome": "Fabio de Oliveira",
-                "email": "fabiospzn10@qa.com.br",
+                "email": "fabiospsp@qa.com.br",
                 "password": "teste",
                 "administrador": "true"
-              },
+            },
             headers: { authorization: token }
         }).then((response) => {
             expect(response.status).to.equal(201);
@@ -45,16 +45,17 @@ describe('Testes da Funcionalidade Usuários', () => {
         });
     });
 
-    it('Deve validar mensagem de erro ao cadastrar usuário invalido', () => {
-        cy.cadastrarUsuario(token, 'Fabio de Oliveira', 'fabiospzn@ebac.com.br', 'teste', 'true')
-            .then((response) => {
-                expect(response.status).to.equal(400);
-                expect(response.body.message).to.equal('Este email já está sendo usado');
-            });
+    it('Deve validar mensagem de erro ao cadastrar usuário inválido', () => {
+        const usuario = 'Fabio de Oliveira'; 
+        const email = 'fabiospzn@ebac.com.br'; 
+       cy.cadastrarUsuario(token, usuario, email, 'teste', 'true').then((response) => {
+            expect(response.status).to.equal(400);
+            expect(response.body.message).to.equal('Este email já está sendo usado');
+        });
     });
-    
 
-    it ('Deve editar um usuário previamente cadastrado', () => {
+
+    it('Deve editar um usuário previamente cadastrado', () => {
         cy.request({
             method: 'GET',
             url: 'usuarios/M3Kf2pvNWvDHhPM7',
@@ -66,15 +67,23 @@ describe('Testes da Funcionalidade Usuários', () => {
 
         });
     });
-    it.only('Deve deletar um usuário previamente cadastrado - DELETE', () => {
-        cy.request({
-            method: 'DELETE',
-            url: 'usuarios/PIfSkyStY7oWn1MZ',
-            headers: { authorization: token },
-        }).then(response => {
-            expect(response.status).to.equal(200);
-            expect(response.body).to.have.property('message', 'Registro excluído com sucesso');
+
+
+    it('Deve deletar um usuário previamente cadastrado', () => {
+
+        const usuario = `Usuário EBAC ${Math.floor(Math.random() * 100000000)}`;
+        cy.cadastrarUsuario(token, usuario, 'fabiospzn13@qa.com.br', 'teste', 'true').then(response => {
+            const id = response.body._id;
+
+            cy.request({
+                method: 'DELETE',
+                url: `usuarios/${id}`,
+                headers: { authorization: token }
+            }).then(response => {
+                expect(response.body.message).to.equal('Registro excluído com sucesso');
+                expect(response.status).to.equal(200);
+            });
         });
     });
-                        
+
 });
